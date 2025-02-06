@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Завантаження даних генерації{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container mt-4">
+        <h2>Завантаження даних генерації</h2>
+        <p class="text-muted">Формат: дата із часом початку часового інтервалу, згенерована енергія у
+            КвГод, id об'єкту. Перший рядок - назви стовпців
+        </p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+{% endblock %}
+

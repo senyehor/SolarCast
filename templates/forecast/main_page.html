@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Прогноз генерації{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Form Section -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Параметри прогнозу</h4>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form | crispy }}
+                            <button type="submit" name="action" value="get_report" class="btn btn-primary w-100">Спрогнозувати
+                            </button>
+                            <button type="submit" name="action" value="download_report" class="btn btn-primary w-100 mt-3">
+                                Завантажити звіт Excel
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Forecast Table Section -->
+            <div class="col-md-8">
+                {% if forecast_data %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Прогноз генерації</h3>
+                            <div style="max-height: 60vh; overflow-y: auto;">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Час</th>
+                                        <th>Генерація (кВт·год)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for record in forecast_data %}
+                                        <tr>
+                                            <td>{{ record.0 }}</td>
+                                            <td>{{ record.1|floatformat:2 }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
